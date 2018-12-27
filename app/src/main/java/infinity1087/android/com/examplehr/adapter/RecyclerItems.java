@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Person;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.angmarch.views.NiceSpinner;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
+import infinity1087.android.com.examplehr.ProductDetalModel.PPZ;
 import infinity1087.android.com.examplehr.ProductDetalModel.PriceDetails;
 import infinity1087.android.com.examplehr.R;
 import infinity1087.android.com.examplehr.RoundedTransformation;
@@ -28,6 +35,7 @@ public class RecyclerItems extends RecyclerView.Adapter<RecyclerItems.MyViewHold
 
     List<ResponseDetail> mData;
     List<PriceDetails> mPricel;
+    List<String> mList=new ArrayList<>();
 
     public RecyclerItems(List<ResponseDetail> data, List<PriceDetails> price) {
 
@@ -53,9 +61,24 @@ public class RecyclerItems extends RecyclerView.Adapter<RecyclerItems.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
-        //TODO : Price is in Double datatype
         ResponseDetail datum = mData.get(i);
         PriceDetails details = datum.getPriceDetail().get(0);
+
+        int size = datum.getPriceDetail().size();
+        for (i = 0; i < size; i++) {
+
+            PriceDetails details2 = datum.getPriceDetail().get(i);
+            mList.add(String.valueOf(details.getPP().getWeight()));
+        }
+        Log.d("oal", String.valueOf(Arrays.asList(mList)));
+        myViewHolder.niceSpinner.setText(mList.get(0));
+
+        myViewHolder.niceSpinner.attachDataSource(mList);
+        //mList.clear();
+
+
+
+
 
         //PriceDetails pd = mPricel.get(i);
         myViewHolder.txt_name.setText(datum.getP().getProductName());
@@ -83,6 +106,7 @@ public class RecyclerItems extends RecyclerView.Adapter<RecyclerItems.MyViewHold
 
         TextView txt_name, txt_price, txt_offer;
         ImageView imageView;
+        NiceSpinner niceSpinner;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -93,6 +117,7 @@ public class RecyclerItems extends RecyclerView.Adapter<RecyclerItems.MyViewHold
             imageView = itemView.findViewById(R.id.img_detail);
             txt_price = itemView.findViewById(R.id.txt_detail_amount);
             txt_offer = itemView.findViewById(R.id.txt_offer);
+            niceSpinner = itemView.findViewById(R.id.spinner);
 
             // Double d = Double.valueOf(txt_offer.toString());
 
