@@ -2,6 +2,7 @@ package infinity1087.android.com.examplehr;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -140,9 +141,15 @@ public class MainActivity extends AppCompatActivity
                 mAdapter = new RecyclerAdapter(mPojos);
                 mRecyclerView.setAdapter(mAdapter);
 
+
             }
         });
+
+
     }
+
+
+   // public class MyAsyncBanner extends AsyncTask<Void,>
 
     private void callRetrofit(int i) {
 

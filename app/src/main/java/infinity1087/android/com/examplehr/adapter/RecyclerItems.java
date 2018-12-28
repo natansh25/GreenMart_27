@@ -71,9 +71,10 @@ public class RecyclerItems extends RecyclerView.Adapter<RecyclerItems.MyViewHold
             mList.add(String.valueOf(details.getPP().getWeight()));
         }
         Log.d("oal", String.valueOf(Arrays.asList(mList)));
-        myViewHolder.niceSpinner.setText(mList.get(0));
+
 
         myViewHolder.niceSpinner.attachDataSource(mList);
+        myViewHolder.niceSpinner.setSelectedIndex(0);
         //mList.clear();
 
 
