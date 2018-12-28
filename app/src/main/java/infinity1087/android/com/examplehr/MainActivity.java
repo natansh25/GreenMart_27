@@ -21,7 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity
     private ApiInterface apiInterface;
     private List<ResponseDetail> results;
     private List<BannerResults> mBannerResults;
+    private ProgressBar mProgressBar;
     Button btnForget;
     List<BannerTrial> mPojos = new ArrayList<>();
 
@@ -87,6 +90,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         android.support.v4.view.ViewPager viewPager = (android.support.v4.view.ViewPager) findViewById(R.id.viewpager);
         SimpleFragmentPageAdapter adapter = new SimpleFragmentPageAdapter(this, getSupportFragmentManager());
+        mProgressBar=findViewById(R.id.progress_bar);
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Set the adapter onto the view pager
@@ -125,31 +130,22 @@ public class MainActivity extends AppCompatActivity
 
         setupRecyclerView();
 
-        callRetrofitForBanner();
+        callAsyncForBanner();
 
     }
 
-    private void callRetrofitForBanner() {
-
-             AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-               URL url= NetworkClass.buildURl(NetworkClass.BANNER_BASE_URL);
-
-               mPojos = NetworkClass.fetchBannerData(url);
-               Log.d("yuyu", String.valueOf(mPojos));
-                mAdapter = new RecyclerAdapter(mPojos);
-                mRecyclerView.setAdapter(mAdapter);
+    private void callAsyncForBanner() {
 
 
-            }
-        });
+        URL url = NetworkClass.buildURl(NetworkClass.BANNER_BASE_URL);
+
+        new MyAsyncBanner().execute(url);
 
 
     }
 
 
-   // public class MyAsyncBanner extends AsyncTask<Void,>
+    // public class MyAsyncBanner extends AsyncTask<Void,>
 
     private void callRetrofit(int i) {
 
@@ -165,6 +161,7 @@ public class MainActivity extends AppCompatActivity
                 results = response.body().getResponseData();
                 Intent i = new Intent(MainActivity.this, detailLayout.class);
                 i.putExtra("yyy", (Serializable) results);
+                mProgressBar.setVisibility(View.INVISIBLE);
                 startActivity(i);
 
             }
@@ -181,7 +178,6 @@ public class MainActivity extends AppCompatActivity
 
 
     private void setupRecyclerView() {
-
 
 
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -290,19 +286,43 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void img_btn_vegg(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
         callRetrofit(2);
     }
 
-    public void img_btn_fruits(View view){
+    public void img_btn_fruits(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
         callRetrofit(1);
     }
 
-    public void img_btn_waffer(View view){
-        callRetrofit(3);
+    public void img_btn_waffer(View view) {
+        Toast.makeText(this, "url not yet formed !!", Toast.LENGTH_SHORT).show();
+        //callRetrofit(3);
     }
 
-    public void img_btn_milk(View view){
-        callRetrofit(4);
+    public void img_btn_milk(View view) {
+        Toast.makeText(this, "url not yet formed !!", Toast.LENGTH_SHORT).show();
+        //callRetrofit(4);
+    }
+
+
+    public class MyAsyncBanner extends AsyncTask<URL, Void, List<BannerTrial>> {
+
+        @Override
+        protected List<BannerTrial> doInBackground(URL... urls) {
+
+            mPojos = NetworkClass.fetchBannerData(urls[0]);
+            return mPojos;
+        }
+
+        @Override
+        protected void onPostExecute(List<BannerTrial> bannerTrials) {
+            super.onPostExecute(bannerTrials);
+
+            mAdapter = new RecyclerAdapter(mPojos);
+            mRecyclerView.setAdapter(mAdapter);
+
+        }
     }
 
 

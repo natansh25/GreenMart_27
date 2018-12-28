@@ -35,7 +35,7 @@ public class RecyclerItems extends RecyclerView.Adapter<RecyclerItems.MyViewHold
 
     List<ResponseDetail> mData;
     List<PriceDetails> mPricel;
-    List<String> mList=new ArrayList<>();
+
 
     public RecyclerItems(List<ResponseDetail> data, List<PriceDetails> price) {
 
@@ -61,21 +61,24 @@ public class RecyclerItems extends RecyclerView.Adapter<RecyclerItems.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
+
         ResponseDetail datum = mData.get(i);
         PriceDetails details = datum.getPriceDetail().get(0);
 
         int size = datum.getPriceDetail().size();
+        List<String> mList=new ArrayList<>();
+        //mList.clear();
         for (i = 0; i < size; i++) {
 
             PriceDetails details2 = datum.getPriceDetail().get(i);
-            mList.add(String.valueOf(details.getPP().getWeight()));
+            mList.add(String.valueOf(details2.getPP().getWeight() + " " +details2.getPU().getUnitName()));
         }
         Log.d("oal", String.valueOf(Arrays.asList(mList)));
 
 
         myViewHolder.niceSpinner.attachDataSource(mList);
         myViewHolder.niceSpinner.setSelectedIndex(0);
-        //mList.clear();
+
 
 
 
