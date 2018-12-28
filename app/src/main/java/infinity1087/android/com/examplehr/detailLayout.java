@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ import infinity1087.android.com.examplehr.ProductDetalModel.PriceDetails;
 import infinity1087.android.com.examplehr.adapter.RecyclerItems;
 import infinity1087.android.com.examplehr.ProductDetalModel.ResponseDetail;
 
-public class detailLayout extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,AdapterView.OnItemSelectedListener {
+public class detailLayout extends AppCompatActivity implements AdapterView.OnItemSelectedListener,NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerItems mAdapter;
@@ -38,12 +40,20 @@ public class detailLayout extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_layout);
+        setContentView(R.layout.detail_navigation_trial);
         Intent i = getIntent();
         mData  = (List<ResponseDetail>) i.getSerializableExtra("yyy");
         mprice = (List<PriceDetails>) i.getSerializableExtra("zzz");
         Log.d("ttt", String.valueOf(mData));
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_detail);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_detail);
 
         // Spinner click listener
        // spinner.setOnItemSelectedListener(this);
@@ -63,6 +73,8 @@ public class detailLayout extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setNestedScrollingEnabled(false);
         setUpRecyclerView(mData,mprice);
 
+        navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     private void setUpRecyclerView(List<ResponseDetail> datumList, List<PriceDetails> priceDetails) {
@@ -75,12 +87,6 @@ public class detailLayout extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-        return false;
-
-    }
 
     //TODO:StrikeThru
     private void strikeThroughText(TextView price){
@@ -107,5 +113,10 @@ public class detailLayout extends AppCompatActivity implements NavigationView.On
         Intent i = new Intent(detailLayout.this,MyCart.class);
         startActivity(i);
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        return false;
     }
 }

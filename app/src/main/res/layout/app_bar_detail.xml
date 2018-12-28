@@ -21,19 +21,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/activity_detail_layout" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="8dp"
-        app:itemBackground="?attr/colorPrimary"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"
-        app:menu="@menu/bottombar_menu"
-        tools:layout_editor_absoluteX="0dp" />
+
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -40,7 +40,6 @@ import infinity1087.android.com.examplehr.Services.ApiClient;
 import infinity1087.android.com.examplehr.Services.ApiInterface;
 import infinity1087.android.com.examplehr.ViewPager.LoginViewPager;
 import infinity1087.android.com.examplehr.adapter.RecyclerAdapter;
-import infinity1087.android.com.examplehr.appExecuter.AppExecutors;
 import infinity1087.android.com.examplehr.loginFragments.SignIn;
 import infinity1087.android.com.examplehr.model.BannerResults;
 import infinity1087.android.com.examplehr.model.BannerTrial;
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
         android.support.v4.view.ViewPager viewPager = (android.support.v4.view.ViewPager) findViewById(R.id.viewpager);
         SimpleFragmentPageAdapter adapter = new SimpleFragmentPageAdapter(this, getSupportFragmentManager());
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_detail);
 
         View view = navigationView.getHeaderView(0);
         ImageView img = view.findViewById(R.id.img_header);
